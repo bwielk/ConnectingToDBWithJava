@@ -24,10 +24,10 @@ public class Main {
             insertNewContact(statement,"Blaise", 987123, "blaise@blaise.bl");
             insertNewContact(statement,"John", 932123, "john@john.jo");
             insertNewContact(statement,"Janette", 3111123, "janette@jane.ja");
-////            statement.execute("INSERT INTO contacts (name, phone, email)" +
-////                                    " VALUES ('Esther', '01121231123', 'esther@esther.est')");
-//            statement.execute("UPDATE contacts SET email = 'est@est.est' WHERE name = 'Esther'");
-//            statement.execute("DELETE FROM contacts WHERE name = 'Janette'");
+            insertNewContact(statement,"Esther", 1231123, "esther@esther.est");
+            updateEmailByName(statement, "Esther", "est@est.est");
+            deleteContactByName(statement, "Janette");
+
             ResultSet results = statement.executeQuery("SELECT * FROM contacts");
             while(results.next()){
                 System.out.println(results.getString("name") + " " + results.getInt("phone") +
@@ -50,7 +50,23 @@ public class Main {
                     " VALUES ('" + name + "', ' " + phoneNum + "', '" + email + "')");
         }catch(SQLException e){
             System.out.println(e);
-            e.printStackTrace();
+        }
+    }
+
+    public static void updateEmailByName(Statement statement, String name, String newEmail){
+        try{
+            statement.execute("UPDATE " + TABLE_CONTACTS +
+                    " SET " + EMAIL_COLUMNS_CONTACTS + " = '" + newEmail + "' WHERE name = '" + name + "'");
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+    }
+
+    public static void deleteContactByName(Statement statement, String contactNameToDelete){
+        try{
+            statement.execute("DELETE FROM " + TABLE_CONTACTS + " WHERE name = '" + contactNameToDelete + "'");
+        }catch(SQLException e){
+            System.out.println(e);
         }
     }
 }
